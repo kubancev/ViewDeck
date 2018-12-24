@@ -10,7 +10,7 @@
 //  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //  of the Software, and to permit persons to whom the Software is furnished to do
 //  so, subject to the following conditions:
-// 
+//
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
@@ -72,13 +72,14 @@ NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 @property (nonatomic) UIScreenEdgePanGestureRecognizer *rightEdgeGestureRecognizer;
 @property (nonatomic) UITapGestureRecognizer *decorationTapGestureRecognizer;
 @property (nonatomic) UIPanGestureRecognizer *dismissGestureRecognizer;
-
 @property (nonatomic) UIView *currentDecorationView;
 
 @end
 
 
 @implementation IIViewDeckController
+
+@synthesize shouldUseParallax = _shouldUseParallax;
 
 II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
 
@@ -100,18 +101,18 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         NSParameterAssert(centerViewController);
-
+        
         // Default flags
         _flags.isInSideChange = NO;
         _flags.isPanningEnabled = YES;
-
+        
         _layoutSupport = [[IIViewDeckLayoutSupport alloc] initWithViewDeckController:self];
-
+        
         // Trigger the setter as they keep track of the view controller hierarchy!
         self.centerViewController = centerViewController;
         self.leftViewController = leftViewController;
         self.rightViewController = rightViewController;
-
+        
         // Trigget setter as this creates the correct proxy!
         self.delegate = nil;
     }
@@ -126,7 +127,7 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     self = [super initWithCoder:aDecoder];
     if (self) {
         _layoutSupport = [[IIViewDeckLayoutSupport alloc] initWithViewDeckController:self];
-
+        
         // Trigget setter as this creates the correct proxy!
         self.delegate = nil;
     }
@@ -148,12 +149,12 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     let view = self.view;
     [view addGestureRecognizer:self.leftEdgeGestureRecognizer];
     [view addGestureRecognizer:self.rightEdgeGestureRecognizer];
     [view addGestureRecognizer:self.dismissGestureRecognizer];
-
+    
     [self ii_exchangeViewFromController:nil toController:self.centerViewController inContainerView:self.view];
 }
 
@@ -191,7 +192,7 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     
     let oldViewController = _centerViewController;
     _centerViewController = centerViewController;
-
+    
     [self ii_exchangeViewController:oldViewController withViewController:centerViewController viewTransition:^{
         [self ii_exchangeViewFromController:oldViewController toController:centerViewController inContainerView:self.view];
     }];
@@ -206,9 +207,9 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     NSAssert(_leftViewController == nil || self.openSide != IIViewDeckSideLeft, @"You can not exchange a side view controller while it is being presented.");
     let oldViewController = _leftViewController;
     _leftViewController = leftViewController;
-
+    
     [self ii_exchangeViewController:oldViewController withViewController:leftViewController viewTransition:NULL];
-
+    
     [self updateSideGestureRecognizer];
 }
 
@@ -219,9 +220,9 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     NSAssert(_rightViewController == nil || self.openSide != IIViewDeckSideRight, @"You can not exchange a side view controller while it is being presented.");
     let oldViewController = _rightViewController;
     _rightViewController = rightViewController;
-
+    
     [self ii_exchangeViewController:oldViewController withViewController:rightViewController viewTransition:NULL];
-
+    
     [self updateSideGestureRecognizer];
 }
 
@@ -251,11 +252,11 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     }
     NSAssert(self->_flags.isInSideChange == NO, @"A side change is currently taking place. You can not switch the side while already transitioning from or to a side.");
     NSAssert(IIIsAllowedTransition(_openSide, side), @"Open and close transitions are only allowed between a side and the center. You can not transition straight from one side to another side.");
-
+    
     self->_flags.isInSideChange = YES;
-
+    
     IIViewDeckSide oldSide = _openSide;
-
+    
     BOOL shouldContinue = YES;
     if (notify) {
         if (oldSide == IIViewDeckSideNone) {
@@ -271,7 +272,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
         self->_flags.isInSideChange = NO;
         return;
     }
-
+    
     void(^innerComplete)(BOOL) = ^(BOOL cancelled){
         self.currentTransition = nil;
         if (cancelled) {
@@ -280,11 +281,11 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
             self->_openSide = side;
             NSAssert(IIIsAllowedTransition(oldSide, self->_openSide), @"A transition has taken place that is unexpected and unsupported. We are probably in an invalid state right now.");
         }
-
+        
         [self updateSideGestureRecognizer];
-
+        
         if (completion) { completion(cancelled); }
-
+        
         if (notify) {
             if (cancelled) {
                 if (oldSide == IIViewDeckSideNone) {
@@ -310,7 +311,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
         // first moment on, therefore we change the state immediately.
         _openSide = side;
     }
-
+    
     if (let recognizer = self.currentInteractiveGesture) {
         let transition = [[IIViewDeckTransition alloc] initWithViewDeckController:self from:oldSide to:side];
         self.currentTransition = transition;
@@ -354,7 +355,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     if (_leftEdgeGestureRecognizer) {
         return _leftEdgeGestureRecognizer;
     }
-
+    
     _leftEdgeGestureRecognizer = [self _screenEdgeGestureRecognizerWithEdges:UIRectEdgeLeft];
     return _leftEdgeGestureRecognizer;
 }
@@ -363,7 +364,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     if (_rightEdgeGestureRecognizer) {
         return _rightEdgeGestureRecognizer;
     }
-
+    
     _rightEdgeGestureRecognizer = [self _screenEdgeGestureRecognizerWithEdges:UIRectEdgeRight];
     return _rightEdgeGestureRecognizer;
 }
@@ -382,7 +383,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     if (_decorationTapGestureRecognizer) {
         return _decorationTapGestureRecognizer;
     }
-
+    
     let recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeGestureRecognized:)];
     _decorationTapGestureRecognizer = recognizer;
     return _decorationTapGestureRecognizer;
@@ -393,7 +394,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
         case UIGestureRecognizerStateBegan: {
             NSParameterAssert(!self.currentInteractiveGesture);
             self.currentInteractiveGesture = recognizer;
-
+            
             IIViewDeckSide side = IIViewDeckSideNone;
             if (recognizer == self.leftEdgeGestureRecognizer) {
                 side = IIViewDeckSideLeft;
@@ -405,7 +406,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
                 NSAssert(NO, @"A gesture recognizer (%@) triggered an interactive view transition that is not controlled by this istance of %@, (%@).", recognizer, NSStringFromClass(self.class), self);
                 return;
             }
-
+            
             [self openSide:side animated:YES notify:YES completion:^(BOOL cancelled){
                 // cancel gesture recognizer:
                 if (cancelled) {
@@ -451,7 +452,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
         // default value if delegate is not implemented
         return YES;
     }
-
+    
     IIViewDeckSide side = IIViewDeckSideNone;
     if (gestureRecognizer == self.leftEdgeGestureRecognizer) {
         side = IIViewDeckSideLeft;
@@ -480,7 +481,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     if (let decorationView = self.currentDecorationView) {
         return decorationView;
     }
-
+    
     let decorationView = [[UIView alloc] initWithFrame:self.view.bounds];
     decorationView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.75];
     [decorationView addGestureRecognizer:self.decorationTapGestureRecognizer];

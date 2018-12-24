@@ -29,9 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithViewDeckController:(IIViewDeckController *)viewDeckController {
     NSParameterAssert(viewDeckController);
     self = [super init];
-
+    
     _viewDeckController = viewDeckController;
-
+    
     return self;
 }
 
@@ -76,14 +76,14 @@ static inline CGSize IIViewDeckSanitizeContentSize(const CGSize size) {
             frame.origin.x += CGRectGetWidth(frame);
         }
     }
-
+    
     // parallax center
-    if (side == IIViewDeckSideNone && openSide != IIViewDeckSideNone) {
+    if (side == IIViewDeckSideNone && openSide != IIViewDeckSideNone && _viewDeckController.shouldUseParallax) {
         CGSize maxSize = [self sizeForSide:openSide inContainer:containerView];
         CGFloat xOffset = (openSide == IIViewDeckSideLeft ? maxSize.width * 0.1 : -maxSize.width * 0.1);
         frame.origin.x += xOffset;
     }
-
+    
     return frame;
 }
 

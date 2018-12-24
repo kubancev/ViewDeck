@@ -61,7 +61,7 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 
 /**
  Tells the delegate that the specified side did open.
-
+ 
  @param viewDeckController The view deck controller informing the delegate.
  @param side               The side that did open. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
  */
@@ -71,7 +71,7 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  Tells the delegate that the specified side will close.
  
  If this delegate method is not implemented, view deck will always close the side.
-
+ 
  @param viewDeckController The view deck controller informing the delegate.
  @param side               The side that will close. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
  
@@ -83,7 +83,7 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  Tells the delegate that the specified side did close.
  
  If this delegate method is not implemented, view deck will always start panning.
-
+ 
  @param viewDeckController The view deck controller informing the delegate.
  @param side               The side that did close. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
  */
@@ -95,14 +95,14 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 /**
  Asks the delegate whether panning (and therefore an interactive side change) should
  start or not.
-
+ 
  This method is only triggered if `-[IIViewDeckController isPanningEnabled]` returns
  `YES`.
-
+ 
  @param viewDeckController The view deck controller informing the delegate.
  @param side               The side that will open interactively.
  @return `YES` if view deck should start the interactive transition, `NO` if the
-         transition should be cancelled.
+ transition should be cancelled.
  */
 - (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldStartPanningToSide:(IIViewDeckSide)side NS_SWIFT_NAME(viewDeckController(_:shouldStartPanningTo:));
 
@@ -155,10 +155,10 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  @see initWithCenterViewController:leftViewController:
  @see initWithCenterViewController:rightViewController:
  @see initWithCenterViewController:leftViewController:rightViewController:
-
+ 
  @param centerController The view controller that should be responsible for the
-                         view in the center of the view deck controller.
-
+ view in the center of the view deck controller.
+ 
  @return A newly initialized instance of `IIViewDeckController`.
  */
 - (instancetype)initWithCenterViewController:(UIViewController*)centerController;
@@ -166,16 +166,16 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 /**
  Initialises an instance of `IIViewDeckController` with the given center and left
  view controller.
-
+ 
  When using this method, the receiver has no right view controller after
  initialization and you need to set this manually via `setRightViewController:`
  if you want to add one.
-
+ 
  @param centerController The view controller that should be responsible for the
-                         view in the center of the view deck controller.
+ view in the center of the view deck controller.
  @param leftController   The view controller that should be responsible for the
-                         view on the left side of the view deck controller.
-
+ view on the left side of the view deck controller.
+ 
  @return A newly initialized instance of `IIViewDeckController`.
  */
 - (instancetype)initWithCenterViewController:(UIViewController*)centerController leftViewController:(nullable UIViewController*)leftController;
@@ -183,16 +183,16 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 /**
  Initialises an instance of `IIViewDeckController` with the given center and
  right view controller.
-
+ 
  When using this method, the receiver has no left view controller after
  initialization and you need to set this manually via `setLeftViewController:`
  if you want to add one.
-
+ 
  @param centerController The view controller that should be responsible for the
-                         view in the center of the view deck controller.
+ view in the center of the view deck controller.
  @param rightController  The view controller that should be responsible for the
-                         view on the right side of the view deck controller.
-
+ view on the right side of the view deck controller.
+ 
  @return A newly initialized instance of `IIViewDeckController`.
  */
 - (instancetype)initWithCenterViewController:(UIViewController*)centerController rightViewController:(nullable UIViewController*)rightController;
@@ -202,14 +202,14 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  and right view controller.
  
  @note This is the designated initializer.
-
+ 
  @param centerController The view controller that should be responsible for the
-                         view in the center of the view deck controller.
+ view in the center of the view deck controller.
  @param leftController   The view controller that should be responsible for the
-                         view on the left side of the view deck controller.
+ view on the left side of the view deck controller.
  @param rightController  The view controller that should be responsible for the
-                         view on the right side of the view deck controller.
-
+ view on the right side of the view deck controller.
+ 
  @return A newly initialized instance of `IIViewDeckController`.
  */
 - (instancetype)initWithCenterViewController:(UIViewController*)centerController leftViewController:(nullable UIViewController*)leftController rightViewController:(nullable UIViewController*)rightController NS_DESIGNATED_INITIALIZER;
@@ -235,16 +235,16 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  view deck controller.
  
  @warning Setting this view controller while is is already on screen will
-          trigger an exception.
+ trigger an exception.
  */
 @property (nonatomic, nullable) UIViewController* leftViewController;
 
 /**
  The view controller that is responsible for the view on the right side of the
  view deck controller.
-
+ 
  @warning Setting this view controller while is is already on screen will
-          trigger an exception.
+ trigger an exception.
  */
 @property (nonatomic, nullable) UIViewController* rightViewController;
 
@@ -267,13 +267,13 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  Opening a side that is already open does nothing.
  
  @note You can only switch between no view controller (`IIViewDeckSideNone`) or
-       either the left (`IIViewDeckSideLeft`) or right (`IIViewDeckSideRight`)
-       view controller. You can not switch directly from left to right without
-       dismissing the open side first.
+ either the left (`IIViewDeckSideLeft`) or right (`IIViewDeckSideRight`)
+ view controller. You can not switch directly from left to right without
+ dismissing the open side first.
  
  @see closeSide:
  @see closeSide:animated:completion:
-
+ 
  @param side     The side you want to open.
  @param animated `YES` if you want to animate the transition, `NO` otherwise.
  */
@@ -304,10 +304,10 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  Closes the currently open side.
  
  Closing a side when no side is open does nothing.
-
+ 
  @see closeSide:animated:completion:
  @see openSide:animated:
-
+ 
  @param animated `YES` if you want to animate the transition, `NO` otherwise.
  */
 - (void)closeSide:(BOOL)animated;
@@ -336,7 +336,7 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  implement the methods provided by the delegate.
  
  @note If this property is disabled, the gesture recognizers itself will be completely
-       deactivated, therefore the above mentioned delegate methods will not be called.
+ deactivated, therefore the above mentioned delegate methods will not be called.
  */
 @property (nonatomic, getter=isPanningEnabled) BOOL panningEnabled;
 
@@ -347,9 +347,9 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  This method is ment to be subclassed if you want to add your own custom animator.
  If you want to customize the animation only in some cases, make sure to call super
  in all the other cases, otherwise calling super is not required.
-
+ 
  @param context The `IIViewDeckTransitionContext` that this animator should use.
-
+ 
  @return A fully configured animator object.
  */
 - (id<IIViewDeckTransitionAnimator>)animatorForTransitionWithContext:(id<IIViewDeckTransitionContext>)context;
@@ -357,17 +357,19 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 /**
  Creates and returns a view that can be used as decoration view between the center
  view controller's view and a side view.
-
+ 
  This method is ment to be subclassed if you want to add your own custom decoration
  view or if you want to disable decoration views alltogether. If you want to customize
  the decoration view only in some cases, make sure to call super in all the other
  cases, otherwise calling super is not required.
-
+ 
  @param context The `IIViewDeckTransitionContext` that this decoration view is used in.
-
+ 
  @return A fully configured decoration view.
  */
 - (nullable UIView *)decorationViewForTransitionWithContext:(id<IIViewDeckTransitionContext>)context;
+
+@property (nonatomic, assign, readwrite) BOOL shouldUseParallax;
 
 @end
 
@@ -379,15 +381,15 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  The gesture recognizer that is used to slide in the left view controller.
  
  @note Do not alter this gesture recognizer. This property should only be used to
-       link this gesture recognizer with other gesture recognizers.
+ link this gesture recognizer with other gesture recognizers.
  */
 @property (nonatomic, readonly) UIGestureRecognizer *leftEdgeGestureRecognizer;
 
 /**
  The gesture recognizer that is used to slide in the right view controller.
-
+ 
  @note Do not alter this gesture recognizer. This property should only be used to
-       link this gesture recognizer with other gesture recognizers.
+ link this gesture recognizer with other gesture recognizers.
  */
 @property (nonatomic, readonly) UIGestureRecognizer *rightEdgeGestureRecognizer;
 
