@@ -248,6 +248,8 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  */
 @property (nonatomic, nullable) UIViewController* rightViewController;
 
+@property (nonatomic) BOOL isInSideChange;
+
 
 /// @name Managing Transitions
 

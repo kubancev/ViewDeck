@@ -213,6 +213,11 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     [self updateSideGestureRecognizer];
 }
 
+
+- (BOOL)isInSideChange {
+    return self->_flags.isInSideChange == YES
+}
+
 - (void)setRightViewController:(nullable UIViewController *)rightViewController {
     if (_rightViewController && _rightViewController == rightViewController) {
         return;
