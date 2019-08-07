@@ -215,7 +215,7 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
 
 
 - (BOOL)isInSideChange {
-    return self->_flags.isInSideChange == YES
+    return self->_flags.isInSideChange == YES;
 }
 
 - (void)setRightViewController:(nullable UIViewController *)rightViewController {
